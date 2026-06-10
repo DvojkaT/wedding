@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Роман & Софья — Приглашение на свадьбу</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cormorant+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       oklch(0.07 0.015 50);
+    --gold:     oklch(0.78 0.11 84);
+    --gold-dim: oklch(0.60 0.09 84);
+    --gold-faint: oklch(0.78 0.11 84 / 0.25);
+    --text:     oklch(0.90 0.02 68);
+    --text-dim: oklch(0.65 0.03 68);
+  }
+
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 16px 48px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+  }
+  .photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+    filter: brightness(0.92);
+  }
+  .photo-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 45%,
+      oklch(0.07 0.015 50 / 0.6) 70%,
+      var(--bg) 100%
+    );
+  }
+
+  .names-over {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    text-align: center;
+    padding: 0 24px 28px;
+  }
+  .names-over .invite-label {
+    font-family: 'Cormorant SC', serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.2s;
+  }
+  .names-over h1 {
+    font-size: clamp(52px, 13vw, 72px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.0;
+    text-shadow: 0 2px 40px oklch(0 0 0 / 0.8);
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.5s;
+  }
+  .names-over h1 .amp {
+    font-weight: 300;
+    color: var(--gold);
+    font-size: 0.8em;
+    margin: 0 8px;
+  }
+
+  .body {
+    padding: 0 36px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 280px;
+    margin: 28px 0;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 0.9s;
+  }
+  .ornament-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+  }
+  .ornament-diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    margin: 0 12px;
+  }
+  .ornament-dot {
+    width: 3px;
+    height: 3px;
+    background: var(--gold-dim);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    margin: 0 5px;
+  }
+
+  .tagline {
+    font-size: 17px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-dim);
+    text-align: center;
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 1.1s;
+  }
+
+  .calendar-block {
+    text-align: center;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 1.3s;
+    width: 100%;
+  }
+  .cal-month {
+    font-family: 'Cormorant SC', serif;
+    font-size: clamp(38px, 9vw, 50px);
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .cal-year {
+    font-family: 'Cormorant SC', serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .cal-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .cal-day {
+    width: 44px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant SC', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .cal-day-active {
+    position: relative;
+    width: 64px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant SC', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--gold);
+    flex-shrink: 0;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .cal-heart {
+    position: absolute;
+    top: calc(50% - 1px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 58px;
+    height: 54px;
+    pointer-events: none;
+  }
+
+  .time-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 1.5s;
+  }
+  .time-row .pill {
+    font-family: 'Cormorant SC', serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    color: var(--bg);
+    background: var(--gold);
+    padding: 5px 18px;
+    text-transform: uppercase;
+  }
+  .time-row .day {
+    font-family: 'Cormorant SC', serif;
+    font-size: 12px;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .ornament2 {
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.7s;
+  }
+
+  .venue {
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 1.9s;
+  }
+  .venue-label {
+    font-family: 'Cormorant SC', serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .venue-name {
+    font-size: 16px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .venue-address {
+    font-size: 13.5px;
+    font-weight: 300;
+    color: var(--text-dim);
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+  }
+
+  .footer-ornament {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 60px;
+    margin: 36px auto 0;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 2.1s;
+  }
+  .footer-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gold-faint);
+  }
+  .footer-diamond {
+    width: 4px;
+    height: 4px;
+    background: var(--gold-dim);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    margin: 0 8px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-delay: 0ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="photo-wrap">
+    <img src="photo.jpg" alt="Роман и Софья">
+    <div class="names-over">
+      <p class="invite-label">Приглашение на свадьбу</p>
+      <h1>Роман<span class="amp">&amp;</span>Софья</h1>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+    </div>
+
+    <p class="tagline">Дорогой Александр, будем счастливы видеть тебя рядом в этот радостный день!</p>
+
+    <div class="calendar-block">
+      <div class="cal-month">Сентябрь</div>
+      <div class="cal-year">2026 года</div>
+      <div class="cal-row">
+        <div class="cal-day">7</div>
+        <div class="cal-day">8</div>
+        <div class="cal-day-active">
+          <svg class="cal-heart" viewBox="0 0 60 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 52 C17 43 4 33 4 20 C4 11 11 4 19 4 C24 4 27.5 7 30 12 C32.5 7 36 4 41 4 C49 4 56 11 56 20 C56 33 43 43 30 52 Z" stroke="var(--gold)" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          9
+        </div>
+        <div class="cal-day">10</div>
+        <div class="cal-day">11</div>
+        <div class="cal-day">12</div>
+        <div class="cal-day">13</div>
+      </div>
+    </div>
+
+    <div class="time-row">
+      
+      <div class="pill">13:00</div>
+    </div>
+
+    <div class="ornament ornament2" style="margin-top: 32px; margin-bottom: 28px;">
+      <div class="ornament-line"></div>
+      <div class="ornament-dot"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-dot"></div>
+      <div class="ornament-line"></div>
+    </div>
+
+    <div class="venue">
+      <div class="venue-label">Место проведения</div>
+      <div class="venue-name">ЗАГС № 1 г. Кемерово</div>
+      <div class="venue-address">пр-кт. Октябрьский, д. 3, корп. Г</div>
+    </div>
+
+    <div class="footer-ornament">
+      <div class="footer-line"></div>
+      <div class="footer-diamond"></div>
+      <div class="footer-line"></div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
