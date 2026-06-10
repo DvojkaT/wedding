@@ -1,2 +1,33 @@
 User-agent: *
 Disallow: /
+
+# Разрешаем ботам мессенджеров для превью ссылок
+User-agent: TelegramBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: SkypeUriPreview
+Allow: /
+
+User-agent: vkShare
+Allow: /
+
+User-agent: Viber
+Allow: /
